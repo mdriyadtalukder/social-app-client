@@ -53,6 +53,13 @@ export const usersApi = apiSlice.injectEndpoints({
             }),
             providesTags: ["requests"]
         }),
+        getAPost: builder.query({
+            query: (id) => ({
+                url: `/posts/${id}`,
+                method: "GET",
+            }),
+            providesTags: ["apost"]
+        }),
         addUser: builder.mutation({
             query: (data) => ({
                 url: "/users",
@@ -67,7 +74,7 @@ export const usersApi = apiSlice.injectEndpoints({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["posts", "post", "followingPost"]
+            invalidatesTags: ["posts", "post", "followingPost", "apost"]
         }),
         editUserInfo: builder.mutation({
             query: ({ id, data }) => ({
@@ -121,7 +128,31 @@ export const usersApi = apiSlice.injectEndpoints({
             invalidatesTags: ["requests"]
 
         }),
+        updateLike: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/updatelike/${id}`,
+                method: "PATCH",
+                body: data
+            }),
+            invalidatesTags: ["posts", "post", "followingPost", "apost"]
+        }),
+        updateComment: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/updatecomment/${id}`,
+                method: "PATCH",
+                body: data
+            }),
+            invalidatesTags: ["posts", "post", "followingPost", "apost"]
+        }),
+        deletePost: builder.mutation({
+            query: (id) => ({
+                url: `/dpost/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["posts", "post", "followingPost", "apost"]
+
+        }),
 
     })
 })
-export const { useGetUsersQuery, useGetUserQuery, useGetAUserQuery, useGetRequestQuery, useAddUserMutation, useEditUserInfoMutation, useGetPostsQuery, useGetPostQuery, useAddPostMutation, useUpdatePostNumberMutation, useUpdateFollowingMutation, useUpdateFollowersMutation, useAddRequestMutation, useDeleteRequestMutation, useGetFollowingsPostQuery } = usersApi
+export const { useGetUsersQuery, useGetUserQuery, useGetAUserQuery, useGetRequestQuery, useGetAPostQuery, useAddUserMutation, useEditUserInfoMutation, useGetPostsQuery, useGetPostQuery, useAddPostMutation, useUpdatePostNumberMutation, useUpdateFollowingMutation, useUpdateFollowersMutation, useAddRequestMutation, useDeleteRequestMutation, useGetFollowingsPostQuery, useUpdateLikeMutation, useUpdateCommentMutation, useDeletePostMutation } = usersApi

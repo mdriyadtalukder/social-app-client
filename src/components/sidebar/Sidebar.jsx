@@ -1,8 +1,10 @@
-import { FaClipboardList, FaNewspaper, FaPhotoVideo } from "react-icons/fa";
+import { FaClipboardList, FaNewspaper, FaPhotoVideo, FaUserFriends } from "react-icons/fa";
+import { GiThreeFriends } from "react-icons/gi";
 import { IoAlbums, IoSettings } from "react-icons/io5";
 import { LuActivitySquare } from "react-icons/lu";
 import { MdEventNote, MdGolfCourse, MdPostAdd } from "react-icons/md";
 import { SiCoinmarketcap } from "react-icons/si";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
     return (
@@ -13,6 +15,14 @@ const Sidebar = () => {
                         <MdPostAdd className="text-2xl text-yellow-400"></MdPostAdd>
                         <span className="ml-2 text-sm font-medium">My posts</span>
                     </a>
+                    <Link to='/requests' className="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-blue-300" href="#">
+                        <FaUserFriends className="text-2xl text-blue-400"></FaUserFriends >
+                        <span className="ml-2 text-sm font-medium">Friend requests</span>
+                    </Link>
+                    <Link to='/suggestions' className="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-blue-300" href="#">
+                        <GiThreeFriends className="text-2xl text-green-400"></GiThreeFriends >
+                        <span className="ml-2 text-sm font-medium">Suggestions</span>
+                    </Link>
                     <a className="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-blue-300" href="#">
                         <LuActivitySquare className="text-2xl text-blue-400"></LuActivitySquare>
                         <span className="ml-2 text-sm font-medium">Activity</span>

@@ -81,7 +81,7 @@ const FriendRequest = ({ d }) => {
             <img className="h-16 w-16  rounded-full mr-4" src={d?.image || img}
                 alt="Product" />
             <div className="flex-1">
-                <Link to={`profile/${d?.userId}`} className="text-lg font-bold">{d?.name}</Link>
+                <Link to={`/profile/${d?.userId}`} className="text-lg font-bold">{d?.name}</Link>
             </div>
 
             <button onClick={handleAccept} className="text-gray-600 hover:text-green-700">
