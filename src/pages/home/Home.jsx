@@ -1,6 +1,6 @@
 import AddPost from "../../components/addPost/AddPost";
 import EndSidebar from "../../components/endSidebar/EndSidebar";
-import Feeds from "../../components/feeds/Feeds";
+import FollowingFeed from "../../components/feeds/FollowingFeed";
 import StartSidebar from "../../components/startSidebar/StartSidebar";
 import Stories from "../../components/stories/Stories";
 
@@ -15,7 +15,7 @@ const Home = () => {
             <div className="lg:col-span-4 md:col-span-3 ">
                 <Stories></Stories>
                 <AddPost></AddPost>
-                <Feeds></Feeds>
+                <FollowingFeed></FollowingFeed>
             </div>
             <div className=" lg:col-span-3 ms-5  hidden lg:block">
                 <EndSidebar></EndSidebar>

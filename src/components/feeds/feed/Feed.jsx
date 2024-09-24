@@ -5,14 +5,14 @@ import Comment from "../../comment/Comment";
 import { useState } from "react";
 import img from '../../../assets/empty.png'
 const Feed = ({ d }) => {
-    const [writeCommet, setWriteComment] = useState(false)
+    const [writeCommet, setWriteComment] = useState(false);
     return (
         <div className="bg-white mb-14">
             <div className="flex justify-between">
                 <div className="flex items-center mb-4">
                     <img className="w-12 h-12 rounded-full mr-3" src={d?.profile || img} alt="Profile Image" />
                     <div>
-                        <h2 className="text-lg font-semibold">{d?.name}</h2>
+                        <h2 className="text-lg font-semibold">{d && d?.name}</h2>
                         <p className="text-gray-500 text-sm">Published on {new Date(d?.date).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',

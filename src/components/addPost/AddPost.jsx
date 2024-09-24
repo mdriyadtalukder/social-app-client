@@ -7,7 +7,7 @@ import { IoMdPhotos } from "react-icons/io";
 import { MdEventNote } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector } from "react-redux";
-import { useAddPostMutation } from "../../rtk_query/features/users/usersApi";
+import { useAddPostMutation, useGetUserQuery, useUpdatePostNumberMutation } from "../../rtk_query/features/users/usersApi";
 import Loading from "../loading/Loading";
 import toast from "react-hot-toast";
 
@@ -16,10 +16,16 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 
 const AddPost = () => {
     const { user } = useSelector((state) => state?.users);
+    const { data: postNumber, isLoading: loading, error: err } = useGetUserQuery(user?.email);
+    const [updatePostNumber, { error: er }] = useUpdatePostNumberMutation();
     const [content, setContent] = useState('');
     const [file, setFile] = useState();
     const [addPost, { isLoading, error }] = useAddPostMutation();
-    console.log(user)
+
+    if (loading) {
+        return loading;
+    }
+
     var photo;
     const handlePost = async (e) => {
         e.preventDefault();
@@ -31,8 +37,9 @@ const AddPost = () => {
             photo = res?.data?.data?.display_url;
 
         }
-        if (!error && content) {
+        if (!error && !err && !er && content) {
             addPost({
+                name: postNumber?.name,
                 profile: user?.photoURL,
                 image: photo || '',
                 description: content,
@@ -42,6 +49,12 @@ const AddPost = () => {
                 share: [],
                 email: user?.email
             });
+            updatePostNumber({
+                id: postNumber?._id,
+                data: {
+                    post: Number(postNumber?.post) + 1,
+                }
+            })
             setContent("");
             setFile('');
             toast.success("Successfully posted!")
@@ -52,6 +65,7 @@ const AddPost = () => {
 
 
     }
+
 
     return (
 

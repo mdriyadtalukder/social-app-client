@@ -39,6 +39,20 @@ export const usersApi = apiSlice.injectEndpoints({
             }),
             providesTags: ["post"]
         }),
+        getFollowingsPost: builder.query({
+            query: (email) => ({
+                url: `/followingsposts?email=${email}`,
+                method: "GET",
+            }),
+            providesTags: ["followingPost"]
+        }),
+        getRequest: builder.query({
+            query: (email) => ({
+                url: `/requests?email=${email}`,
+                method: "GET",
+            }),
+            providesTags: ["requests"]
+        }),
         addUser: builder.mutation({
             query: (data) => ({
                 url: "/users",
@@ -53,7 +67,7 @@ export const usersApi = apiSlice.injectEndpoints({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["posts", "post"]
+            invalidatesTags: ["posts", "post", "followingPost"]
         }),
         editUserInfo: builder.mutation({
             query: ({ id, data }) => ({
@@ -64,6 +78,50 @@ export const usersApi = apiSlice.injectEndpoints({
             invalidatesTags: ['users', 'user', "Oneuser"]
 
         }),
+        updatePostNumber: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/postnumber/${id}`,
+                method: "PATCH",
+                body: data,
+            }),
+            invalidatesTags: ['users', 'user', "Oneuser"]
+
+        }),
+        updateFollowing: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/following/${id}`,
+                method: "PATCH",
+                body: data,
+            }),
+            invalidatesTags: ['users', 'user', "Oneuser"]
+
+        }),
+        updateFollowers: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/followers/${id}`,
+                method: "PATCH",
+                body: data,
+            }),
+            invalidatesTags: ['users', 'user', "Oneuser"]
+
+        }),
+        addRequest: builder.mutation({
+            query: (data) => ({
+                url: "/requests",
+                method: "POST",
+                body: data
+            }),
+            invalidatesTags: ["requests"]
+        }),
+        deleteRequest: builder.mutation({
+            query: (id) => ({
+                url: `/request/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["requests"]
+
+        }),
+
     })
 })
-export const { useGetUsersQuery, useGetUserQuery, useGetAUserQuery, useAddUserMutation, useEditUserInfoMutation, useGetPostsQuery, useGetPostQuery, useAddPostMutation } = usersApi
+export const { useGetUsersQuery, useGetUserQuery, useGetAUserQuery, useGetRequestQuery, useAddUserMutation, useEditUserInfoMutation, useGetPostsQuery, useGetPostQuery, useAddPostMutation, useUpdatePostNumberMutation, useUpdateFollowingMutation, useUpdateFollowersMutation, useAddRequestMutation, useDeleteRequestMutation, useGetFollowingsPostQuery } = usersApi

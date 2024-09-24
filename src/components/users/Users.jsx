@@ -1,13 +1,13 @@
 import { useGetUsersQuery } from "../../rtk_query/features/users/usersApi";
-import FriendRequest from "../friendRequests/friendRequest/FriendRequest";
+import User from "./User";
 
 const Users = () => {
     const { data, isLoading, isError, error } = useGetUsersQuery();
     let content;
     if (!isLoading && isError) content = <p className='text-red-600 font-bold text-center'>{error?.status}</p>
-    if (!isLoading && !isError && data.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No info found!!</p>
+    if (!isLoading && !isError && data.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No suggestion found!!</p>
     if (!isLoading && !isError && data.length > 0) {
-        content = data.slice(0,4).map(d => <FriendRequest key={d?._id} d={d} suggest></FriendRequest>)
+        content = data.slice(0,4).map(d => <User key={d?._id} d={d}></User>)
     }
     return (
         <div>

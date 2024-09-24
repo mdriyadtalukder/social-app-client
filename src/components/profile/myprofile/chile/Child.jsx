@@ -1,5 +1,7 @@
 import img from '../../../../assets/empty.png'
 const Child = ({ d }) => {
+
+    
     return (
         <div
             className="w-full rounded-lg text-gray-900 ">
