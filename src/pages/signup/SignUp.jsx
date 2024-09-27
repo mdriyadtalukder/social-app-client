@@ -23,7 +23,6 @@ const SignUp = () => {
     const [isLoading, setLoading] = useState(false);
     const [addUser, { isLoading: loading }] = useAddUserMutation();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const handleSignup = async (e) => {
         setLoading(true);
         e.preventDefault();
@@ -58,7 +57,7 @@ const SignUp = () => {
                             des:""
 
                         });
-                        navigate('/');
+                        window.location.href = '/';
                         toast.success('Created account Successfully!');
                         setLoading(false);
 

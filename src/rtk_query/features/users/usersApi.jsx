@@ -46,6 +46,21 @@ export const usersApi = apiSlice.injectEndpoints({
             }),
             providesTags: ["followingPost"]
         }),
+        getFollowingsstory: builder.query({
+            query: (email) => ({
+                url: `/followingsstories?email=${email}`,
+                method: "GET",
+            }),
+            providesTags: ["stories"]
+        }),
+        getAllRequests: builder.query({
+            query: () => ({
+                url: "/allrequests",
+                method: "GET"
+            }),
+            providesTags: ["allrequests"]
+
+        }),
         getRequest: builder.query({
             query: (email) => ({
                 url: `/requests?email=${email}`,
@@ -59,6 +74,13 @@ export const usersApi = apiSlice.injectEndpoints({
                 method: "GET",
             }),
             providesTags: ["apost"]
+        }),
+        getStory: builder.query({
+            query: (email) => ({
+                url: `/story?email=${email}`,
+                method: "GET",
+            }),
+            providesTags: ["story"]
         }),
         addUser: builder.mutation({
             query: (data) => ({
@@ -74,7 +96,7 @@ export const usersApi = apiSlice.injectEndpoints({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["posts", "post", "followingPost", "apost"]
+            invalidatesTags: ["story",'followingPost']
         }),
         editUserInfo: builder.mutation({
             query: ({ id, data }) => ({
@@ -100,7 +122,7 @@ export const usersApi = apiSlice.injectEndpoints({
                 method: "PATCH",
                 body: data,
             }),
-            invalidatesTags: ['users', 'user', "Oneuser"]
+            invalidatesTags: ['users', 'user', "Oneuser", 'stories', 'followingPost', 'story']
 
         }),
         updateFollowers: builder.mutation({
@@ -109,7 +131,7 @@ export const usersApi = apiSlice.injectEndpoints({
                 method: "PATCH",
                 body: data,
             }),
-            invalidatesTags: ['users', 'user', "Oneuser"]
+            invalidatesTags: ['users', 'user', "Oneuser", 'stories', 'followingPost', 'story']
 
         }),
         addRequest: builder.mutation({
@@ -118,14 +140,22 @@ export const usersApi = apiSlice.injectEndpoints({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["requests"]
+            invalidatesTags: ["requests", 'allrequests']
+        }),
+        addStory: builder.mutation({
+            query: (data) => ({
+                url: "/stories",
+                method: "POST",
+                body: data
+            }),
+            invalidatesTags: ["story", 'stories']
         }),
         deleteRequest: builder.mutation({
             query: (id) => ({
                 url: `/request/${id}`,
                 method: "DELETE",
             }),
-            invalidatesTags: ["requests"]
+            invalidatesTags: ["requests", 'allrequests']
 
         }),
         updateLike: builder.mutation({
@@ -144,6 +174,14 @@ export const usersApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["posts", "post", "followingPost", "apost"]
         }),
+        updateShare: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/updateshare/${id}`,
+                method: "PATCH",
+                body: data
+            }),
+            invalidatesTags: ["posts", "post", "followingPost", "apost"]
+        }),
         deletePost: builder.mutation({
             query: (id) => ({
                 url: `/dpost/${id}`,
@@ -152,7 +190,39 @@ export const usersApi = apiSlice.injectEndpoints({
             invalidatesTags: ["posts", "post", "followingPost", "apost"]
 
         }),
+        updateStory: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/storiesupdate/${id}`,
+                method: "PATCH",
+                body: data,
+            }),
+            invalidatesTags: ["story", "stories"]
+
+        }),
+        getBlocks: builder.query({
+            query: (email) => ({
+                url: `/block?email=${email}`,
+                method: "GET",
+            }),
+            providesTags: ["block"]
+        }),
+        addBlock: builder.mutation({
+            query: (data) => ({
+                url: "/block",
+                method: "POST",
+                body: data
+            }),
+            invalidatesTags: ['users', 'user', 'posts', 'Oneuser', 'post', "allrequests", 'requests', 'followingPost', "apost", 'story', 'stories', 'block']
+        }),
+        deleteBlock: builder.mutation({
+            query: (id) => ({
+                url: `/block/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ['users', 'user', 'posts', 'Oneuser', 'post', "allrequests", 'requests', 'followingPost', "apost", 'story', 'stories', 'block']
+
+        }),
 
     })
 })
-export const { useGetUsersQuery, useGetUserQuery, useGetAUserQuery, useGetRequestQuery, useGetAPostQuery, useAddUserMutation, useEditUserInfoMutation, useGetPostsQuery, useGetPostQuery, useAddPostMutation, useUpdatePostNumberMutation, useUpdateFollowingMutation, useUpdateFollowersMutation, useAddRequestMutation, useDeleteRequestMutation, useGetFollowingsPostQuery, useUpdateLikeMutation, useUpdateCommentMutation, useDeletePostMutation } = usersApi
+export const { useGetUsersQuery, useGetUserQuery, useGetAUserQuery, useGetRequestQuery, useGetAPostQuery, useGetStoryQuery, useGetAllRequestsQuery, useGetFollowingsstoryQuery, useAddUserMutation, useEditUserInfoMutation, useGetPostsQuery, useGetPostQuery, useAddPostMutation, useUpdatePostNumberMutation, useUpdateFollowingMutation, useUpdateFollowersMutation, useAddRequestMutation, useDeleteRequestMutation, useGetFollowingsPostQuery, useUpdateLikeMutation, useUpdateCommentMutation, useDeletePostMutation, useUpdateShareMutation, useAddStoryMutation, useUpdateStoryMutation, useGetBlocksQuery, useAddBlockMutation, useDeleteBlockMutation } = usersApi

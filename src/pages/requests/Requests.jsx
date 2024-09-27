@@ -1,4 +1,5 @@
 import FriendRequests from "../../components/friendRequests/FriendRequests";
+import Sidebar from "../../components/sidebar/Sidebar";
 
 const Requests = () => {
     return (
@@ -6,7 +7,7 @@ const Requests = () => {
 
             <div className="lg:col-span-2 me-5 hidden lg:block">
 
-
+            <Sidebar></Sidebar>
             </div>
             <div className="lg:col-span-4 md:col-span-3 h-screen bg-blue-50 ">
                 <FriendRequests all></FriendRequests>

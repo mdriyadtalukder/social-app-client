@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector } from "react-redux";
-import { useAddPostMutation, useGetUserQuery, useUpdatePostNumberMutation } from "../../../rtk_query/features/users/usersApi";
+import { useAddPostMutation, useGetUserQuery, useUpdatePostNumberMutation, useUpdateShareMutation } from "../../../rtk_query/features/users/usersApi";
 import Loading from "../../loading/Loading";
 import toast from "react-hot-toast";
 
@@ -12,32 +12,42 @@ const RepostModal = ({ d }) => {
     const { data: postNumber, isLoading: loading, error: err } = useGetUserQuery(user?.email);
     const [updatePostNumber, { error: er }] = useUpdatePostNumberMutation();
     const [addPost, { isLoading, error }] = useAddPostMutation();
+    const [updateShare, { isLoading: isLoad, error: isErr }] = useUpdateShareMutation();
     console.log(d)
-    if (loading || isLoading) {
+    if (loading || isLoading || isLoad) {
         return <Loading></Loading>
     }
 
     const handleRepost = (e) => {
 
         e.preventDefault();
-        if (!error && !err && !er) {
+        if (!error && !err && !er && !isErr) {
             addPost({
                 name: d?.name,
+                posterName: user?.displayName,
+                posterimg: user?.photoURL,
                 profile: d?.profile,
                 image: d?.image || '',
                 description: d?.description,
                 date: new Date(),
+                oldDate: d?.date,
                 like: [],
                 comment: [],
                 share: [],
                 email: user?.email,
                 write: write,
-                type:'repost'
+                type: 'repost'
             });
             updatePostNumber({
                 id: postNumber?._id,
                 data: {
                     post: Number(postNumber?.post) + 1,
+                }
+            })
+            updateShare({
+                id: d?._id,
+                data: {
+                    share: [...d?.share, user?.email]
                 }
             })
             setWrite("");

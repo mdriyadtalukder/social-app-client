@@ -5,9 +5,10 @@ import { IoIosLink } from "react-icons/io";
 import { IoBagAddSharp } from "react-icons/io5";
 import Modal from "../../modal/Modal";
 import { useSelector } from "react-redux";
-import { useAddRequestMutation, useDeleteRequestMutation, useGetRequestQuery, useGetUserQuery, useUpdateFollowersMutation, useUpdateFollowingMutation } from "../../../rtk_query/features/users/usersApi";
+import { useAddBlockMutation, useAddRequestMutation, useDeleteRequestMutation, useGetAllRequestsQuery, useGetRequestQuery, useGetUserQuery, useUpdateFollowersMutation, useUpdateFollowingMutation } from "../../../rtk_query/features/users/usersApi";
 import toast from "react-hot-toast";
 import { MdCancel } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Info = ({ d, auser }) => {
     const { user } = useSelector((state) => state?.users);
@@ -17,22 +18,31 @@ const Info = ({ d, auser }) => {
     const [updateFollowers, { error }] = useUpdateFollowersMutation();
     const [addRequest] = useAddRequestMutation();
     const { data, isLoading: load, error: erro } = useGetRequestQuery(user?.email);
+    const { data: allreq, isLoading: reqload, error: reerro } = useGetAllRequestsQuery();
     const filters = data?.find(dt => dt?.myEmail === d?.email)
+    const filterss = allreq?.find(dt => dt?.email === d?.email)
     const { data: followerss, isLoading: loads, error: es } = useGetUserQuery(filters?.myEmail);
     const [deleteRequest] = useDeleteRequestMutation();
+    const [addBlock, { isLoading: blockload }] = useAddBlockMutation();
+    const navigate = useNavigate();
 
-    if (loading || isLoading || load || loads) {
+    if (loading || isLoading || load || loads || reqload || blockload) {
         return loading;
     }
     const handleFollowing = () => {
-        if (!err || !er || !e || !error) {
+        if (!err || !er || !e || !error || !reerro) {
             if (following?.following?.includes(d?.email)) {
                 updateFollowing({
                     id: following?._id,
                     data: {
                         following: following?.following?.filter(f => f !== d?.email)
                     }
-                })
+                });
+
+                if (filterss?._id) {
+                    deleteRequest(filterss?._id);
+                }
+
 
             }
             else {
@@ -51,6 +61,9 @@ const Info = ({ d, auser }) => {
                         followers: followers?.followers?.filter(f => f !== user?.email)
                     }
                 })
+                if (filterss?._id) {
+                    deleteRequest(filterss?._id);
+                }
 
             }
             else {
@@ -81,7 +94,6 @@ const Info = ({ d, auser }) => {
 
 
     }
-
     const handleAccept = () => {
         if (!erro || !er || !e || !es) {
             if (following?.following?.includes(filters?.myEmail)) {
@@ -139,6 +151,17 @@ const Info = ({ d, auser }) => {
             toast.error("Something went wrong!!");
         }
     }
+
+    const handleBlock = () => {
+        addBlock({
+            email: user?.email,
+            blocked: d?.email,
+            blockedName: d?.name,
+            blockedImage: d?.image
+        });
+        navigate('/')
+        toast.success("Blocked!!");
+    }
     return (
         <div className=" max-w-xl mx-auto mt-5">
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
@@ -179,7 +202,7 @@ const Info = ({ d, auser }) => {
                         </div>
                     }
                     {
-                        (auser && user?.email !== d?.email) && <p className="text-red-600 float-end my-3 ">Block User</p>
+                        (auser && user?.email !== d?.email) && <p onClick={handleBlock} className="text-red-600 float-end my-3 cursor-pointer ">Block User</p>
                     }
 
                 </div>

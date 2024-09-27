@@ -17,13 +17,12 @@ const Feed = ({ d }) => {
     const [deletePost, { isLoading: loads, error: errs }] = useDeletePostMutation();
     const { data: postNumber, isLoading: loading, error: errss } = useGetUserQuery(user?.email);
     const [updatePostNumber, { error: er }] = useUpdatePostNumberMutation();
-    if (isLoading || load || loads) {
+    if (isLoading || load || loads || loading) {
         return <Loading></Loading>
     }
     if (err || error || errs) {
         return <p className='text-red-600 font-bold text-center'>{error?.status || err?.status}</p>
     }
-    console.log(d)
 
     const handleLike = () => {
         if (!err || !error) {
@@ -65,32 +64,56 @@ const Feed = ({ d }) => {
         <div className="bg-white mb-14">
 
             <div className="flex justify-between relative">
-                <div className="flex items-center mb-4">
-                    <img className="w-12 h-12 rounded-full mr-3" src={d?.profile || img} alt="Profile Image" />
-                    <div>
-                        <h2 className="text-lg font-semibold">{d && d?.name}</h2>
-                        <p className="text-gray-500 text-sm">Published on {new Date(d?.date).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                        })}</p>
-                    </div>
-                </div>
                 {
-                    user?.email === d?.email && (<><BiDotsHorizontalRounded onClick={() => setToggle(!toggle)} className="text-2xl text-gray-600 cursor-pointer"></BiDotsHorizontalRounded>
-                        {
-                            toggle && (<div className=" flex flex-col justify-center items-center gap-[1px] bg-white shadow-lg border-2 border-blue-50 absolute top-5 -right-10 md:-right-4 w-[80px] py-1 text-sm rounded-md text-gray-400">
-                                <p onClick={handleDelete} className="hover:bg-blue-50 w-full p-1 text-red-400 text-center rounded-md">Delete</p>
-                                <RepostModal d={d}></RepostModal>
-                            </div>)
-                        }</>)
+                    d?.type ? <div className="flex items-center mb-4">
+                        <img className="w-12 h-12 rounded-full mr-3" src={d?.posterimg || img} alt="Profile Image" />
+                        <div>
+                            <h2 className="text-lg font-semibold">{d && d?.posterName}</h2>
+                            <p className="text-gray-500 text-sm">Published on {new Date(d?.date).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                            })}</p>
+                        </div>
+                    </div> : <div className="flex items-center mb-4">
+                        <img className="w-12 h-12 rounded-full mr-3" src={d?.profile || img} alt="Profile Image" />
+                        <div>
+                            <h2 className="text-lg font-semibold">{d && d?.name}</h2>
+                            <p className="text-gray-500 text-sm">Published on {new Date(d?.date).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                            })}</p>
+                        </div>
+                    </div>
                 }
+                <><BiDotsHorizontalRounded onClick={() => setToggle(!toggle)} className="text-2xl text-gray-600 cursor-pointer"></BiDotsHorizontalRounded>
+                    {
+                        toggle && (<div className=" flex flex-col justify-center items-center gap-[1px] bg-white shadow-lg border-2 border-blue-50 absolute top-5 -right-10 md:-right-4 w-[80px] py-1 text-sm rounded-md text-gray-400">
+                            {
+                                user?.email === d?.email && <p onClick={handleDelete} className="hover:bg-blue-50 w-full p-1 text-red-400 text-center rounded-md">Delete</p>
+                            }
+                            <RepostModal d={d}></RepostModal>
+                        </div>)
+                    }</>
+
             </div>
             {
                 d?.type && (<> {
                     d?.write && <p className="text-gray-500 mb-1">{d?.write}</p>
                 }
                     <div className="p-8 shadow-lg rounded-lg mb-4 border-2 border-gray-200">
+                        <div className="flex items-center mb-4">
+                            <img className="w-12 h-12 rounded-full mr-3" src={d?.profile || img} alt="Profile Image" />
+                            <div>
+                                <h2 className="text-lg font-semibold">{d && d?.name}</h2>
+                                <p className="text-gray-500 text-sm">Published on {new Date(d?.oldDate).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                })}</p>
+                            </div>
+                        </div>
                         {
                             d?.image && <img className="object-cover object-top w-full rounded-lg mb-4 " src={d?.image} alt='Mountain' />
                         }

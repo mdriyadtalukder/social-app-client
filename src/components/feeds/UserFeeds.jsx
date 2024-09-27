@@ -1,11 +1,9 @@
-import { useSelector } from "react-redux";
 import { useGetAUserQuery, useGetPostQuery } from "../../rtk_query/features/users/usersApi";
 import Loading from "../loading/Loading";
 import Feed from "./feed/Feed";
 import { useParams } from "react-router-dom";
 
 const UserFeeds = () => {
-    const { user } = useSelector((state) => state?.users);
     const { id } = useParams();
     const { data, isLoading, isError, error } = useGetAUserQuery(id);
     const { data: mailData, isLoading: load, isError: isErr } = useGetPostQuery(data?.email);
