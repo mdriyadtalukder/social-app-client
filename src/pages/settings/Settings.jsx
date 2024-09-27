@@ -62,6 +62,7 @@ const Settings = () => {
             toast.success("deleted account");
             // User deleted.
         }).catch((error) => {
+            console.log(error)
             toast.error(error)
 
         });

@@ -1,7 +1,7 @@
 import axios from "axios";
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signOut, updateProfile } from "firebase/auth";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Loading from "../../components/loading/Loading";
 import { app } from "../../../firebase.config";
 import toast from "react-hot-toast";
@@ -34,32 +34,57 @@ const SignUp = () => {
         const photo = res?.data?.data?.display_url;
 
         if (email && password && name && checkbox) {
+            addUser({
+                name: name,
+                email: email,
+                image: photo,
+                post: 0,
+                followers: [],
+                following: [],
+                live: "",
+                school: "",
+                work: "",
+                link: "",
+                join: new Date(),
+                follow: "Follow",
+                start: [],
+                des: ""
+
+            });
             createUserWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    updateProfile(auth.currentUser, {
+                .then(async () => {
+                    await addUser({
+                        name: name,
+                        email: email,
+                        image: photo,
+                        post: 0,
+                        followers: [],
+                        following: [],
+                        live: "",
+                        school: "",
+                        work: "",
+                        link: "",
+                        join: new Date(),
+                        follow: "Follow",
+                        start: [],
+                        des: ""
+
+                    });
+                    await updateProfile(auth.currentUser, {
                         displayName: name, photoURL: photo
                     }).then(() => {
-                        dispatch(getCurrentUser(auth.currentUser));
-                        addUser({
-                            name: auth?.currentUser?.displayName,
-                            email: auth?.currentUser?.email,
-                            image: auth?.currentUser?.photoURL,
-                            post: 0,
-                            followers: [],
-                            following: [],
-                            live: "",
-                            school: "",
-                            work: "",
-                            link: "",
-                            join: new Date(),
-                            follow: "Follow",
-                            start: [],
-                            des:""
 
+                        signOut(auth).then(() => {
+                            dispatch(getCurrentUser(null))
+                            localStorage.clear();
+                            window.location.href = '/login';
+                            toast.success('Created account Successfully!now login.');
+                            setLoading(false);
+
+                        }).catch((error) => {
+                            toast.error(error.message)
                         });
-                        window.location.href = '/';
-                        toast.success('Created account Successfully!');
-                        setLoading(false);
+
 
                     }).catch((error) => {
                         setLoading(false);

@@ -3,26 +3,23 @@ import { useDispatch } from "react-redux";
 import { app } from "../../../firebase.config";
 import { GoogleAuthProvider } from "firebase/auth";
 import { getCurrentUser } from "../../rtk_query/features/users/usersSlice";
-import { useNavigate } from "react-router-dom";
 import { useAddUserMutation } from "../../rtk_query/features/users/usersApi";
 // eslint-disable-next-line react/prop-types
 const SocialLogin = ({ setError }) => {
     const dispatch = useDispatch();
     const auth = getAuth(app);
-    const navigate = useNavigate('')
     const [addUser] = useAddUserMutation();
 
     const googleLogin = () => {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider)
-            .then((result) => {
+            .then(async (result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 //const credential = GoogleAuthProvider.credentialFromResult(result);
                 //const token = credential.accessToken;
                 // The signed-in user info.
                 const user = result.user;
-                dispatch(getCurrentUser(user));
-                addUser({
+                await addUser({
                     name: auth?.currentUser?.displayName,
                     email: auth?.currentUser?.email,
                     image: auth?.currentUser?.photoURL,
@@ -39,7 +36,9 @@ const SocialLogin = ({ setError }) => {
                     des: ""
 
                 });
-                navigate('/');
+                dispatch(getCurrentUser(user));
+
+                window.location.href = '/';
             }).catch((error) => {
 
                 //const credential = GoogleAuthProvider.credentialFromError(error);
@@ -50,7 +49,7 @@ const SocialLogin = ({ setError }) => {
     const facebookLogin = () => {
         const provider = new FacebookAuthProvider();
         signInWithPopup(auth, provider)
-            .then((result) => {
+            .then(async (result) => {
                 // The signed-in user info.
                 const user = result.user;
 
@@ -58,8 +57,7 @@ const SocialLogin = ({ setError }) => {
                 // const credential = FacebookAuthProvider.credentialFromResult(result);
                 // const accessToken = credential.accessToken;
 
-                dispatch(getCurrentUser(user));
-                addUser({
+                await addUser({
                     name: auth?.currentUser?.displayName,
                     email: auth?.currentUser?.email,
                     image: auth?.currentUser?.photoURL,
@@ -76,7 +74,9 @@ const SocialLogin = ({ setError }) => {
                     des: ""
 
                 });
-                navigate('/');
+                dispatch(getCurrentUser(user));
+
+                window.location.href = '/';
             })
             .catch((error) => {
 
@@ -90,7 +90,7 @@ const SocialLogin = ({ setError }) => {
     const twitterLogin = () => {
         const provider = new TwitterAuthProvider();
         signInWithPopup(auth, provider)
-            .then((result) => {
+            .then(async (result) => {
                 // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
                 // You can use these server side with your app's credentials to access the Twitter API.
                 //const credential = TwitterAuthProvider.credentialFromResult(result);
@@ -99,8 +99,7 @@ const SocialLogin = ({ setError }) => {
 
                 // The signed-in user info.
                 const user = result.user;
-                dispatch(getCurrentUser(user));
-                addUser({
+                await addUser({
                     name: auth?.currentUser?.displayName,
                     email: auth?.currentUser?.email,
                     image: auth?.currentUser?.photoURL,
@@ -116,8 +115,10 @@ const SocialLogin = ({ setError }) => {
                     start: [],
                     des: ""
 
-                });
-                navigate('/');
+                })
+                dispatch(getCurrentUser(user));
+
+                window.location.href = '/';
             }).catch((error) => {
                 // Handle Errors here.
 

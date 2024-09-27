@@ -1,6 +1,6 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { app } from "../../../firebase.config";
 import toast from "react-hot-toast";
 import Loading from "../../components/loading/Loading";
@@ -15,7 +15,6 @@ const Login = () => {
     const auth = getAuth(app);
     const [error, setError] = useState('');
     const [isLoading, setLoading] = useState(false);
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleLogin = (e) => {
@@ -26,7 +25,7 @@ const Login = () => {
                 .then((userCredential) => {
                     const user = userCredential.user;
                     dispatch(getCurrentUser(user))
-                    navigate('/');
+                    window.location.href = '/';
                     toast.success("Log in successfully!")
                 })
                 .catch((error) => {
