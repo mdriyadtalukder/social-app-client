@@ -15,8 +15,8 @@ const UserMedia = () => {
     }
     let content;
     if ((!load && isErr) || isError) content = <p className='text-red-600 font-bold text-center'>{error?.status || er?.status || 'error!'}</p>
-    if (!load && !isErr && mailData.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No media found!!</p>
-    if (!load && !isErr && mailData.length > 0) {
+    if (!load && !isErr && maildata?.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No media found!!</p>
+    if (!load && !isErr && maildata?.length > 0) {
         content = mailData?.filter(f => f?.image)?.map(d => <img key={d?._id} className="rounded-lg h-32 w-30" src={d?.image} alt="" />
         )
     }

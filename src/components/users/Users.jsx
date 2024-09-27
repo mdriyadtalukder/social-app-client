@@ -10,8 +10,8 @@ const Users = ({ all }) => {
 
     let content;
     if (!isLoading && isError) content = <p className='text-red-600 font-bold text-center'>{error?.status}</p>
-    if (!isLoading && !isError && data.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No suggestion found!!</p>
-    if (!isLoading && !isError && data.length > 0) {
+    if (!isLoading && !isError && data?.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No suggestion found!!</p>
+    if (!isLoading && !isError && data?.length > 0) {
         if (all) {
             if (search) {
                 content = data?.filter((item) => {

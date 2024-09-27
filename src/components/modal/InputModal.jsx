@@ -48,18 +48,20 @@ const InputModal = ({ myName, myEmail, myPassword }) => {
         e.preventDefault();
 
         if (email) {
-            updateEmail(auth.currentUser, email).then(() => {
-                dispatch(getCurrentUser(auth.currentUser));
-                window.location.href = '/settings';
-                toast.success("email updated!");
-            }).catch((error) => {
-                toast.error(error)
-
-            });
+            updateEmail(auth.currentUser, email)
+                .then(() => {
+                    dispatch(getCurrentUser(auth.currentUser));
+                    window.location.href = '/settings';
+                    toast.success("Email updated!");
+                })
+                .catch((error) => {
+                    console.error("Error updating email:", error); // Log the error
+                    toast.error(error.message); // Show error message to the user
+                });
         } else {
-            toast.error("Something went wrong!");
-
+            toast.error("Something went wrong! Please provide a valid email.");
         }
+        
     }
     const handlePassword = (e) => {
         e.preventDefault();

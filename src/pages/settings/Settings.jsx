@@ -30,7 +30,7 @@ const Settings = () => {
         data.append('image', image)
         const res = await axios.post(image_hosting_api, data)
         const photo = res?.data?.data?.display_url;
-        if (photo && users) {
+        if (photo && user) {
             updateProfile(auth.currentUser, {
                 displayName: user?.displayName, photoURL: photo
             }).then(() => {

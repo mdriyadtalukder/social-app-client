@@ -17,7 +17,7 @@ const Stories = () => {
     const [addStory, { isLoading, error }] = useAddStoryMutation();
     const [updateStory, { isLoading: load, error: er }] = useUpdateStoryMutation();
     const { data, isLoading: loads, isError, error: ers } = useGetFollowingsstoryQuery(user?.email);
-    const { data: block ,isLoading:loadss} = useGetBlocksQuery(user?.email);
+    const { data: block, isLoading: loadss } = useGetBlocksQuery(user?.email);
 
 
 
@@ -27,11 +27,11 @@ const Stories = () => {
 
     let content;
     if (!loads && isError) content = <p className='text-red-600 font-bold text-center'>{ers?.status}</p>
-    if (!loads && !isError && data.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No story found!!</p>
-    if (!loads && !isError && data.length > 0) {
+    if (!loads && !isError && data?.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No story found!!</p>
+    if (!loads && !isError && data?.length > 0) {
         content = data.filter((item) => {
             // Check if the item.email is not in the block.blocked array
-            return !block?.some((b) => b?.blocked === item?.email );
+            return !block?.some((b) => b?.blocked === item?.email);
         }).map(d => <Story key={d?._id} d={d}></Story>
         )
     }

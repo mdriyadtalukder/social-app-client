@@ -10,12 +10,12 @@ const FriendRequests = ({ all }) => {
 
     let content;
     if (!isLoading && isError) content = <p className='text-red-600 font-bold text-center'>{error?.status}</p>
-    if (!isLoading && !isError && data.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No Request found!!</p>
-    if (!isLoading && !isError && data.length > 0) {
+    if (!isLoading && !isError && data?.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No Request found!!</p>
+    if (!isLoading && !isError && data?.length > 0) {
         if (all) {
             content = data.filter((item) => {
                 // Check if the item.email is not in the block.blocked array
-                return !block?.some((b) => b?.blocked === item?.myEmail );
+                return !block?.some((b) => b?.blocked === item?.myEmail);
             }).map(d => <FriendRequest key={d?._id} d={d}></FriendRequest>)
         }
         else {

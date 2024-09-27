@@ -13,8 +13,8 @@ const OwnMedias = () => {
     }
     let content;
     if (!isLoading && isError) content = <p className='text-red-600 font-bold text-center'>{error?.status}</p>
-    if (!isLoading && !isError && data.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No Request found!!</p>
-    if (!isLoading && !isError && data.length > 0) {
+    if (!isLoading && !isError && data?.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No Request found!!</p>
+    if (!isLoading && !isError && data?.length > 0) {
         content = data?.filter(f => f?.image)?.slice(0, 9)?.map(d => <img key={d?._id} className="rounded-lg h-32 w-30" src={d?.image} alt="" />)
 
     }

@@ -8,7 +8,7 @@ const Blocked = () => {
     const { user } = useSelector((state) => state?.users);
     const { data, isLoading, isError, error } = useGetBlocksQuery(user?.email);
     const [deleteBlock, { isLoading: load }] = useDeleteBlockMutation();
-    
+
 
     if (isLoading || load) {
         return <Loading></Loading>
@@ -16,8 +16,8 @@ const Blocked = () => {
 
     let content;
     if (!isLoading && isError) content = <p className='text-red-600 font-bold text-center'>{error?.status}</p>
-    if (!isLoading && !isError && data.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No block found!!</p>
-    if (!isLoading && !isError && data.length > 0) {
+    if (!isLoading && !isError && data?.length === 0) content = <p className='text-blue-400 font-bold  text-center'>No block found!!</p>
+    if (!isLoading && !isError && data?.length > 0) {
         content = data.map(d => <div key={d?._id} className="flex items-center mb-2">
             <img className="h-16 w-16  rounded-full mr-4" src={d?.blockedImage}
                 alt="Product" />
@@ -38,7 +38,7 @@ const Blocked = () => {
         <div className="pt-4 px-4 bg-blue-50 h-max lg:grid lg:grid-cols-9 lg:g-4 lg:w-[88%] md:grid md:grid-cols-5  mx-auto">
 
             <div className="lg:col-span-2 me-5 hidden lg:block">
-            <Sidebar></Sidebar>
+                <Sidebar></Sidebar>
 
             </div>
             <div className="lg:col-span-4 md:col-span-3 h-screen bg-white p-2 ">
